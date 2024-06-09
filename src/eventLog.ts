@@ -12,11 +12,15 @@ class LogEntry {
 
 type EventLog = LogEntry[];
 
-interface Component {
+interface EventComponent<T> {
     // componentId: string;
     // constructor(componentId: string) {
     //     this.componentId = componentId;
     // };
-    events(): EventLog ;
+
+    // The events the component has responded to
+    events(): EventLog;
+    // The unique identidier for the component
     id(): string;
+    processEvent(event: T): void;
 }
