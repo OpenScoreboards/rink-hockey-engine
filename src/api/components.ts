@@ -5,3 +5,11 @@ export interface Component<EventType, ParamType> extends Subscriber<EventType, P
     eventLog: EventLogger;
     getJsonData(): any;
 }
+
+enum ScoreboardComponent {
+    MainClock = 'mainClock',
+    ShotClock = 'shotClock',
+    HomeScore = 'homeScore',
+    AwayScore = 'awayScore',
+    // AwayScore = 'awayScore',
+}

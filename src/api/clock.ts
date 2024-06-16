@@ -1,3 +1,5 @@
+import { Component } from "./components";
+
 export enum ClockEvent {
     Set = 0,
     Start,
@@ -9,3 +11,5 @@ export enum ClockState {
     Running,
 }
 export type ClockEventData = number | null;
+
+export interface ClockComponent extends Component<ClockEvent, ClockEventData> {}
