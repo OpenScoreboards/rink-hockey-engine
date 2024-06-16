@@ -20,21 +20,17 @@ export abstract class ClockComponentImpl implements ClockComponent {
         ])],
         [ClockState.Running, new Map<ClockEvent, GameStateTransition>([
             [ClockEvent.Set, { target: ClockState.Running, action: this.setClock }], // Maybe not?
-            [ClockEvent.Stop, { target: ClockState.Stopped, action: noOp }],
+            [ClockEvent.Stop, { target: ClockState.Stopped, action: this.stopClock }],
             [ClockEvent.Expired, { target: ClockState.Stopped, action: this.timeExpired }]
         ])]
 
     ]);
-    eventLog: EventLogger;
+    abstract eventLog: EventLogger;
     state: ClockState = ClockState.Stopped;
     startTime: Date = new Date();
     // startingTime: number = 10 * 60 * 1000;
     timeRemaining: number = 0;
     abstract id: string;
-
-    constructor(eventLog: EventLogger) {
-        this.eventLog = eventLog;
-    }
 
     abstract getJsonData(): any;
 
@@ -65,6 +61,8 @@ export abstract class ClockComponentImpl implements ClockComponent {
         clock.startTime = entry.timestamp;
     }
 
+    stopClock(_clock: ClockComponentImpl, _entry: LogEntry<ClockEvent, ClockEventData>) { }
+
     setClock(clock: ClockComponentImpl, entry: LogEntry<ClockEvent, ClockEventData>) {
         const params = entry.params;
         if (params === null || params <= 0) {
@@ -74,8 +72,7 @@ export abstract class ClockComponentImpl implements ClockComponent {
         clock.timeRemaining = params;
     }
 
-    timeExpired(clock: ClockComponentImpl, _entry: LogEntry<ClockEvent, ClockEventData>) {
+    timeExpired(_clock: ClockComponentImpl, _entry: LogEntry<ClockEvent, ClockEventData>) {
         console.log("honk");
-        return clock;
     }
 }

@@ -21,6 +21,7 @@ export class RinkHockeyScoreboard implements Scoreboard {
     }
     addComponent(component: Component<any, any>): void {
         this.components.set(component.id, component);
+        this.events.registerListener(component.id, component);
     }
     removeComponent(id: string): void {
         this.components.delete(id);

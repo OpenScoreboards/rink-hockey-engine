@@ -1,23 +1,30 @@
-import { Component, EventLogger } from './api';
+import { ClockEvent, Component, EventLogger } from './api';
 import { EventLog } from './impl/eventLog';
+import { GameClock } from './impl/gameClock';
 import { RinkHockeyScoreboard } from './impl/scoreboard';
+import { ShotClock } from './impl/shotClock';
 
 
 let eventLog = new EventLog();
 let clockEngine = new RinkHockeyScoreboard();
-clockEngine.addComponent(new Comp("123", eventLog));
-clockEngine.addComponent(new Comp1("124", eventLog));
-console.log(clockEngine.getJsonData());
+let shotClock = new ShotClock(eventLog);
+console.log(eventLog);
+clockEngine.addComponent(new GameClock(eventLog));
+console.log(eventLog);
+clockEngine.addComponent(shotClock);
+console.log(eventLog);
+eventLog.registerListener(GameClock.componentId, shotClock);
+console.log(eventLog);
 // clockEngine.getEventLog().registerListener
 
 function start() {
-  // eventLog.processEvent('mainClock', GameClockEvent.Start, null);
+  clockEngine.getEventLog().processEvent(GameClock.componentId, ClockEvent.Start, null);
 }
 function stop() {
-  // eventLog.processEvent('mainClock', GameClockEvent.Stop, null);
+  clockEngine.getEventLog().processEvent(GameClock.componentId, ClockEvent.Stop, null);
 }
 function set() {
-  // eventLog.processEvent('mainClock', GameClockEvent.Set, 5 * 1000);
+  clockEngine.getEventLog().processEvent(GameClock.componentId, ClockEvent.Set, 5 * 1000);
 }
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `

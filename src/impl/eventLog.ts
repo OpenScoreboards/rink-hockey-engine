@@ -35,10 +35,13 @@ export class EventLog implements EventLogger {
     }
 
     registerListener(id: string, listener: Subscriber<any, any>): void {
+        console.log(this.listeners)
         if (!this.listeners.has(id)) {
             this.listeners.set(id, []);
         }
+        console.log(this.listeners.get(id));
         this.listeners.get(id)?.push(listener);
+        console.log(this.listeners.get(id));
     }
 }
 
