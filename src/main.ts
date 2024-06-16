@@ -1,18 +1,23 @@
-import { GameClock, GameClockEvent } from './gameClock';
-import { EventLog, LogEntry } from './eventLog';
+import { Component, EventLogger } from './api';
+import { EventLog } from './impl/eventLog';
+import { RinkHockeyScoreboard } from './impl/scoreboard';
+
 
 let eventLog = new EventLog();
-let clockEngine = new GameClock(eventLog,'mainClock');
-eventLog.listeners.set('mainClock', [clockEngine]);
+let clockEngine = new RinkHockeyScoreboard();
+clockEngine.addComponent(new Comp("123", eventLog));
+clockEngine.addComponent(new Comp1("124", eventLog));
+console.log(clockEngine.getJsonData());
+// clockEngine.getEventLog().registerListener
 
 function start() {
-  eventLog.processEvent('mainClock', GameClockEvent.Start, null);
+  // eventLog.processEvent('mainClock', GameClockEvent.Start, null);
 }
 function stop() {
-  eventLog.processEvent('mainClock', GameClockEvent.Stop, null);
+  // eventLog.processEvent('mainClock', GameClockEvent.Stop, null);
 }
 function set() {
-  eventLog.processEvent('mainClock', GameClockEvent.Set, 5 * 1000);
+  // eventLog.processEvent('mainClock', GameClockEvent.Set, 5 * 1000);
 }
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
@@ -43,9 +48,9 @@ function pad(num: number, size: number): string {
   return result;
 }
 
-setInterval(() => {
-  const timeRemaining = clockEngine.getTimeRemaining();
-  const timeString = `${pad(timeRemaining.getMinutes(), 2)}:${pad(timeRemaining.getSeconds(), 2)}`
-  console.log(timeString);
-}, 500);
+// setInterval(() => {
+//   const timeRemaining = clockEngine.getTimeRemaining();
+//   const timeString = `${pad(timeRemaining.getMinutes(), 2)}:${pad(timeRemaining.getSeconds(), 2)}`
+//   console.log(timeString);
+// }, 500);
 
